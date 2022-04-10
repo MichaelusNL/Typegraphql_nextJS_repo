@@ -11,12 +11,14 @@ import cors from 'cors';
 import { LoginResolver } from './modules/user/Login';
 import { ApolloServerPluginLandingPageGraphQLPlayground } from 'apollo-server-core';
 import { MeResolver } from './modules/user/Me';
+import { ConfirmUserResolver } from './modules/user/ConfirmUser';
 
 const main = async () => {
+  console.log('Creating new nodemailer account');
   await createConnection();
 
   const schema = await buildSchema({
-    resolvers: [RegisterResolver, LoginResolver, MeResolver],
+    resolvers: [RegisterResolver, LoginResolver, MeResolver, ConfirmUserResolver],
     validate: true,
     authChecker: ({ context: { req } }) => {
       return !!req.session.userId;
