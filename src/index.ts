@@ -18,6 +18,9 @@ const main = async () => {
   const schema = await buildSchema({
     resolvers: [RegisterResolver, LoginResolver, MeResolver],
     validate: true,
+    authChecker: ({ context: { req } }) => {
+      return !!req.session.userId;
+    },
   });
 
   const apolloServer = new ApolloServer({
@@ -35,7 +38,7 @@ const main = async () => {
   app.use(
     cors({
       credentials: true,
-      origin: 'https://studio.apollographql.com',
+      origin: 'localhost:4000/graphql',
     }),
   );
 
